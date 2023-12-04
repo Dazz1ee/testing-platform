@@ -6,17 +6,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserAnswer {
-    private Long userTestId;
-
-    private Long taskId;
-
-    private List<String> answer;
-
-    private Boolean correct;
+public class Question {
+    private Long id;
+    private UUID image;
+    private String content;
+    private List<String> options;
+    private List<String> correctAnswer;
 }

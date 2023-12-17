@@ -1,0 +1,29 @@
+server:
+  port: 7080
+
+logging:
+  level:
+#    com.auth: DEBUG
+    org.springframework.security: debug
+    root: debug
+
+
+spring:
+  security:
+    oauth2:
+      authorizationserver:
+        issuer-url: ${ISSUER_URL:http://localhost:7080}
+        client-secret: ${CLIENT_SECRET:{noop}client}
+        client-id: ${CLIENT_ID:client}
+        jwk-set-uri: /oauth2/token-info
+
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/postgres}
+    driver-class-name: org.postgresql.Driver
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
+  flyway:
+    baselineOnMigrate: true
+    locations: classpath:db/migration
+    schemas: public
+    enabled: true

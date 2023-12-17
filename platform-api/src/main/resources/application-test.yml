@@ -1,0 +1,32 @@
+spring:
+  kafka:
+    bootstrap-servers: ${API_KAFKA_BOOTSTRAP_SERVER:localhost:29092}
+    consumer:
+      auto-offset-reset: earliest
+      group-id: ${API_KAFKA_GROUP:test-group}
+      enable-auto-commit: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:7080
+          jwk-set-uri: http://localhost:7080/oauth2/token-info
+  datasource:
+#    url: jdbc:tc:postgresql:16:///postgres
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/postgres}
+    driver-class-name: org.postgresql.Driver
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
+  flyway:
+    baselineOnMigrate: true
+    locations: classpath:db/migration
+    schemas: public
+    enabled: true
+
+
+api:
+  kafka:
+    adding-topic: adding-topic
+    process-topic: process-topic
+    process-topic-dead: process-topic-dead
+    adding-topic-dead: adding-topic-dead

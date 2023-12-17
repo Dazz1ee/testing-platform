@@ -1,0 +1,50 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+logging:
+  level:
+    root: DEBUG
+
+spring:
+  kafka:
+    bootstrap-servers: ${API_KAFKA_BOOTSTRAP_SERVER:localhost:29092}
+    consumer:
+      auto-offset-reset: earliest
+      group-id: ${API_KAFKA_GROUP:test-group}
+      enable-auto-commit: false
+
+  security:
+    user:
+      name: test
+      password: test
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:7080
+          jwk-set-uri: http://localhost:7080/oauth2/token-info
+  datasource:
+    hikari:
+      connection-timeout: 600000
+      maximum-pool-size: 500
+      max-lifetime: 1800000
+      minimum-idle: 20
+      validation-timeout: 3000
+      idle-timeout: 60000
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/postgres}
+    driver-class-name: org.postgresql.Driver
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
+  flyway:
+    baselineOnMigrate: true
+    locations: classpath:db/migration
+    schemas: public
+    enabled: true
+
+api:
+  kafka:
+    adding-topic: ${API_KAFKA_ADDING_TOPIC_NAME:adding-topic}
+    process-topic: ${API_KAFKA_PROCESS_TOPIC_NAME:process-topic}
+    process-topic-dead: ${API_KAFKA_PROCESS_TOPIC_DEAD_NAME:process-topic-dead}
+    adding-topic-dead: ${API_KAFKA_ADDING_TOPIC_DEAD_NAME:adding-topic-dead}
